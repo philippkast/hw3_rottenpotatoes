@@ -15,8 +15,11 @@ Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
   #  ensure that that e1 occurs before e2.
   #  page.content  is the entire content of the page as a string.
   contentOfMyPage = page.body
-  weHaveAMatch = /.*#{e1}.*#{e2}/.match(contentOfMyPage)
-  assert(weHaveAMatch == nil, "It is not before")
+  regex = Regexp.new(/.*#{e1}.*#{e2}/)
+  m = regex.match(contentOfMyPage)
+  if !m
+    assert(false, "It is not before")
+  end
 end
 
 # Make it easier to express checking or unchecking several boxes at once
